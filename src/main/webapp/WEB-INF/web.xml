@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<web-app version="3.1" xmlns="http://xmlns.jcp.org/xml/ns/javaee" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/javaee http://xmlns.jcp.org/xml/ns/javaee/web-app_3_1.xsd">
+    <session-config>
+        <session-timeout>
+            30
+        </session-timeout>
+    </session-config>
+    <display-name>OnePk Fail2Ban router system</display-name>
+    <description>
+        Application used for managing access lists based on successfull and unsuccessfull login from remote addresses.
+    </description>
+    <servlet>
+        <servlet-name>AclServlet</servlet-name>
+        <servlet-class>sk.fiit.aks.fail2ban.servlet.AclServlet</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>RouterServlet</servlet-name>
+        <servlet-class>sk.fiit.aks.fail2ban.servlet.RouterServlet</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>AclServlet</servlet-name>
+        <url-pattern>/accesslists</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>RouterServlet</servlet-name>
+        <url-pattern>/routers</url-pattern>
+    </servlet-mapping>
+</web-app>

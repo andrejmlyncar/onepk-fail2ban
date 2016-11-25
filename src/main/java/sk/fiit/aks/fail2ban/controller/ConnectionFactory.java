@@ -10,8 +10,6 @@ import com.cisco.onep.element.NetworkElement;
 import com.cisco.onep.element.SessionConfig;
 import com.cisco.onep.element.SessionHandle;
 import java.net.UnknownHostException;
-import java.util.ArrayList;
-import java.util.List;
 import sk.fiit.aks.fail2ban.exception.Fail2banConnectionException;
 
 /**
@@ -20,44 +18,25 @@ import sk.fiit.aks.fail2ban.exception.Fail2banConnectionException;
  */
 public class ConnectionFactory {
 
-    private final List<NetworkElement> elements = new ArrayList<NetworkElement>();
-
     public ConnectionFactory() {
     }
 
-    public SessionHandle createConnection(String username, String password, String ipAddress, String name) throws Fail2banConnectionException {
+    public SessionHandle createConnection(String username, String password, String ipAddress) throws Fail2banConnectionException {
         try {
             NetworkApplication networkApplication = NetworkApplication.getInstance();
-            NetworkElement networkElement = networkApplication.getNetworkElement(ipAddress);
-            networkApplication.setName(name);
-            SessionHandle handle = networkElement.connect(username, password, createSessionConfig());
-            elements.add(networkElement);
-            return handle;
-        } catch (OnepConnectionException ex) {
-            throw new Fail2banConnectionException("Unable to create connection with network element", ex);
-        } catch (OnepIllegalArgumentException ex) {
-            throw new Fail2banConnectionException("Unable to create connection with network element", ex);
-        } catch (OnepDuplicateElementException ex) {
-            throw new Fail2banConnectionException("Unable to create connection with network element", ex);
-        } catch (OnepInvalidSettingsException ex) {
-            throw new Fail2banConnectionException("Unable to create connection with network element", ex);
-        } catch (UnknownHostException ex) {
-            throw new Fail2banConnectionException("Unable to create connection with network element", ex);
-        }
-    }
-
-    public SessionHandle getConnection(String name) throws Fail2banConnectionException {
-        for (NetworkElement element : elements) {
-            if (element.getAppname().equals(name)) {
-                return element.getSessionHandle();
+            if (networkApplication.getName() == null) {
+                networkApplication.setName("ONEPK_NIDS");
             }
+            NetworkElement networkElement = networkApplication.getNetworkElement(ipAddress);
+            SessionHandle handle = networkElement.connect(username, password, createSessionConfig());
+            return handle;
+        } catch (OnepConnectionException | OnepIllegalArgumentException | OnepDuplicateElementException | OnepInvalidSettingsException | UnknownHostException ex) {
+            throw new Fail2banConnectionException("Unable to create connection with network element", ex);
         }
-        throw new Fail2banConnectionException("Unable to obtain connection with name " + name + " connection was not initialized");
     }
 
     private SessionConfig createSessionConfig() {
-        SessionConfig config = null;
-        config = new SessionConfig(SessionConfig.SessionTransportMode.TLS);
+        SessionConfig config = new SessionConfig(SessionConfig.SessionTransportMode.TLS);
         config.setPort(SessionConfig.DEFAULT_PORT);
         config.setReconnectTimer(10);
         config.setEventQueueSize(100);
