@@ -12,8 +12,9 @@ import com.cisco.onep.interfaces.NetworkInterface;
 import java.util.List;
 import org.junit.Test;
 import sk.fiit.aks.fail2ban.controller.ConnectionFactory;
-import sk.fiit.aks.fail2ban.controller.InterfaceManager;
+import sk.fiit.aks.fail2ban.manager.impl.InterfaceManagerImpl;
 import sk.fiit.aks.fail2ban.exception.Fail2banConnectionException;
+import sk.fiit.aks.fail2ban.exception.InterfaceManagerException;
 
 /**
  *
@@ -22,19 +23,18 @@ import sk.fiit.aks.fail2ban.exception.Fail2banConnectionException;
 public class ConnectionTest {
 
     @Test
-    public void basicConnectionTest() throws OnepRemoteProcedureException, OnepConnectionException {
+    public void basicConnectionTest() throws OnepRemoteProcedureException, OnepConnectionException, InterfaceManagerException {
         ConnectionFactory factory = new ConnectionFactory();
         SessionHandle handle;
         try {
             handle = factory.createConnection("cisco", "cisco", "192.168.132.7", "csr_router1");
-            InterfaceManager interfaceManager = new InterfaceManager();
-
-            List<NetworkInterface> interfaces = interfaceManager.getAllInterfaces(handle.getNetworkElement());
-            for( NetworkInterface interf :interfaces){
+            InterfaceManagerImpl interfaceManager = new InterfaceManagerImpl(handle.getNetworkElement());
+            List<NetworkInterface> interfaces = interfaceManager.getAllInterfaces();
+            for (NetworkInterface interf : interfaces) {
                 System.out.println(interf.getName());
                 System.out.println(interf.getAddressList().get(0).getHostAddress());
             }
-            
+
         } catch (Fail2banConnectionException ex) {
             System.out.println("Application terminated " + ex.getMessage());
         }
