@@ -19,6 +19,6 @@ public interface AccessListManager {
     
     public void applyAclToInterface(L3Acl acl, NetworkInterface networkInterface);
     
-    public void getAccessList() throws AccessListManagerException;
+    public L3Acl getAccessList() throws AccessListManagerException;
     
 }

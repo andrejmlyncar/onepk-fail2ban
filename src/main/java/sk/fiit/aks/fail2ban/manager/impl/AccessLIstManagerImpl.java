@@ -40,7 +40,7 @@ public class AccessLIstManagerImpl implements AccessListManager {
     }
 
     @Override
-    public void getAccessList() throws AccessListManagerException {
+    public L3Acl getAccessList() throws AccessListManagerException {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
     
