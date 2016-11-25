@@ -25,7 +25,7 @@ public class ConnectionFactory {
         try {
             NetworkApplication networkApplication = NetworkApplication.getInstance();
             if (networkApplication.getName() == null) {
-                networkApplication.setName("ONEPK_NIDS");
+                networkApplication.setName("ONEPK_NIDS1");
             }
             NetworkElement networkElement = networkApplication.getNetworkElement(ipAddress);
             SessionHandle handle = networkElement.connect(username, password, createSessionConfig());

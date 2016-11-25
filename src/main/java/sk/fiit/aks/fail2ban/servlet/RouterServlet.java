@@ -48,10 +48,8 @@ public class RouterServlet extends HttpServlet {
     public void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         try {
             JsonObject object = ServletDataReader.getJsonData(request);
-            System.out.println("Router count: " + ElementRegistry.getInstance().getAllRouters().size());
             ElementRegistry.getInstance().registerRouter(object.getString("ip_address"), object.getString("username"), object.getString("password"), object.getString("name"));
-            System.out.println("Router count: " + ElementRegistry.getInstance().getAllRouters().size());
-            response.setStatus(200); 
+            response.setStatus(200);
             response.getWriter().write(Json.createObjectBuilder().add("status", "rotuer registered").build().toString());
         } catch (Fail2BanServletException | Fail2banConnectionException ex) {
             response.sendError(500);

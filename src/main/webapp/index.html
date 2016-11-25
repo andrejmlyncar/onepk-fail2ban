@@ -17,6 +17,7 @@
         <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
         <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
         <script src='./javascripts/jquery.js'></script>
+        <script src='./javascripts/bootstrap.js'></script>
         <script src='./javascripts/custom.js'></script>
 
     </head>
@@ -33,7 +34,7 @@
                         <a href="#" onclick="displayRouters()">Router List</a>
                     </li>
                     <li>
-                        <a href="#">Add New Router</a>
+                        <a href="#" onclick="routerShowModal()">Add New Router</a>
                     </li>
                     <li>
                         <a href="#" onclick="displayAclTable()">Display Access Lists</a>
@@ -56,7 +57,7 @@
                             <th>IP Address</th>
                         </tr>
                     </thead>
-                    <tbody>
+                    <tbody id="router-table-content">
 
                     </tbody>
                 </table>
@@ -73,11 +74,43 @@
                             <th>And something else</th>
                         </tr>
                     </thead>
-                    <tbody>
+                    <tbody id="acl-table-content">
 
                     </tbody>
                 </table>
             </div>
         </div>
+
+        <div aria-hidden="true" style="display: none;" class="modal fade" id="router-add-modal" tabindex="-1"
+             role="dialog">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                    </div>
+                    <div class="modal-body">
+                        <div class="text-center">
+                            <h4>Add New Router to System</h4>
+                            <label for="router-address">IP Address:</label>
+                            <input type="text" class="form-control" id="router-address"/>
+                            <label for="router-username">Username:</label>
+                            <input type="text" class="form-control" id="router-username"/>
+                            <label for="router-password">Password:</label>
+                            <input type="password" class="form-control" id="router-password"/>
+                            <label for="router-name">Router Name:</label>
+                            <input type="text" class="form-control" id="router-name"/>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-default btn-flat" data-dismiss="modal">Cancel</button>
+                        <button id="router-add-btn" onclick="addNewRouter()" type="button" class="btn btn-info btn-flat" data-dismiss="modal"
+                                value="">Add
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
     </body>
 </html>
