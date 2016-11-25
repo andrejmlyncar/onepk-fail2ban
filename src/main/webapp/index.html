@@ -17,6 +17,7 @@
         <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
         <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
         <script src='./javascripts/jquery.js'></script>
+        <script src='./javascripts/custom.js'></script>
 
     </head>
     <body>
@@ -29,13 +30,13 @@
                         </a>
                     </li>
                     <li>
-                        <a href="#">Router List</a>
+                        <a href="#" onclick="displayRouters()">Router List</a>
                     </li>
                     <li>
                         <a href="#">Add New Router</a>
                     </li>
                     <li>
-                        <a href="#">Display Access Lists</a>
+                        <a href="#" onclick="displayAclTable()">Display Access Lists</a>
                     </li>
                     <li>
                         <a href="#">Author</a>
@@ -43,10 +44,39 @@
                 </ul>
             </div>
 
-            <div id="page-content-wrapper">
-                <div class="container-fluid">
 
-                </div>
+            <div id="router-table" class="container-fluid">
+                <h2>Router List</h2>
+                <p>List of registered routers</p>            
+                <table class="table table-striped">
+                    <thead>
+                        <tr>
+                            <th>Router ID</th>
+                            <th>Router Name</th>
+                            <th>IP Address</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+
+                    </tbody>
+                </table>
+            </div>
+
+            <div id="acl-table" style="display:none" class="container-fluid">
+                <h2>Access List</h2>
+                <p>List of access list rules</p>            
+                <table class="table table-striped">
+                    <thead>
+                        <tr>
+                            <th>IP address</th>
+                            <th>Blocked</th>
+                            <th>And something else</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+
+                    </tbody>
+                </table>
             </div>
         </div>
     </body>
