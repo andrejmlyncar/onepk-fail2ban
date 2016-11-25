@@ -1,5 +1,6 @@
 package sk.fiit.aks.fail2ban.manager.impl;
 
+import com.cisco.onep.element.NetworkElement;
 import com.cisco.onep.interfaces.NetworkInterface;
 import com.cisco.onep.policy.L3Ace;
 import com.cisco.onep.policy.L3Acl;
@@ -12,6 +13,12 @@ import sk.fiit.aks.fail2ban.manager.AccessListManager;
  */
 public class AccessLIstManagerImpl implements AccessListManager {
 
+    private final NetworkElement element;
+    
+    public AccessLIstManagerImpl(NetworkElement element) {
+        this.element = element;
+    }
+    
     @Override
     public L3Acl createAccessList() throws AccessListMangerException {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
