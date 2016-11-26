@@ -7,6 +7,8 @@ import com.cisco.onep.element.NetworkElement;
 import com.cisco.onep.interfaces.InterfaceFilter;
 import com.cisco.onep.interfaces.NetworkInterface;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import sk.fiit.aks.fail2ban.exception.InterfaceManagerException;
 import sk.fiit.aks.fail2ban.manager.InterfaceManager;
 

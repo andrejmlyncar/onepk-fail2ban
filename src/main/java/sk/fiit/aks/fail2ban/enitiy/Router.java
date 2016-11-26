@@ -5,10 +5,8 @@ import com.cisco.onep.element.SessionHandle;
 import java.util.UUID;
 import sk.fiit.aks.fail2ban.manager.AccessListManager;
 import sk.fiit.aks.fail2ban.manager.InterfaceManager;
-import sk.fiit.aks.fail2ban.manager.LoggingManager;
 import sk.fiit.aks.fail2ban.manager.impl.AccessLIstManagerImpl;
 import sk.fiit.aks.fail2ban.manager.impl.InterfaceManagerImpl;
-import sk.fiit.aks.fail2ban.manager.impl.LoggingManagerImpl;
 
 /**
  *
@@ -23,7 +21,6 @@ public class Router {
 
     private InterfaceManager interfaceManager;
     private AccessListManager accessListManager;
-    private LoggingManager loggingManager;
 
     public Router(NetworkElement networkElement, String routerName) {
         this.sessionHandle = networkElement.getSessionHandle();
@@ -51,13 +48,6 @@ public class Router {
             this.accessListManager = new AccessLIstManagerImpl(networkElement);
         }
         return this.accessListManager;
-    }
-
-    public LoggingManager getLoggingManager() {
-        if (this.loggingManager == null) {
-            this.loggingManager = new LoggingManagerImpl(networkElement);
-        }
-        return this.loggingManager;
     }
 
     public String getId() {
