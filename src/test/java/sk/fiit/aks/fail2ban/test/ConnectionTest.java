@@ -27,7 +27,7 @@ public class ConnectionTest {
         ConnectionFactory factory = new ConnectionFactory();
         SessionHandle handle;
         try {
-            handle = factory.createConnection("cisco", "cisco", "192.168.132.7");
+            handle = factory.createConnection("cisco", "cisco", "192.168.132.5");
             InterfaceManagerImpl interfaceManager = new InterfaceManagerImpl(handle.getNetworkElement());
             List<NetworkInterface> interfaces = interfaceManager.getAllInterfaces();
             for (NetworkInterface interf : interfaces) {

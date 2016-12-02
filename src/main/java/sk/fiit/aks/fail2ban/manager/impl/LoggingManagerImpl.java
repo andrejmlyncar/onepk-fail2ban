@@ -9,6 +9,8 @@ import com.cisco.onep.core.exception.OnepException;
 import com.cisco.onep.element.NetworkElement;
 import com.cisco.onep.idl.ExceptionIDL;
 import com.cisco.onep.vty.VtyService;
+import java.util.ArrayList;
+import java.util.List;
 import sk.fiit.aks.fail2ban.exception.LoggingManagerException;
 import sk.fiit.aks.fail2ban.manager.LoggingManager;
 
@@ -31,11 +33,33 @@ public class LoggingManagerImpl implements LoggingManager {
             vtyService.open();
             String showOnepStatusCmd = "show logging";
             String cliResult = vtyService.write(showOnepStatusCmd);
-            System.out.println(cliResult);
+            //System.out.println(cliResult);
             vtyService.close();
         } catch (OnepException | InterruptedException | ExceptionIDL ex) {
             throw new LoggingManagerException("Unable to obtain logging messages", ex);
         }
+    }
+
+    @Override
+    public List<String> getFailedLoggingRecord() throws LoggingManagerException {
+        List<String> failedAttempts = new ArrayList<>();
+        try {
+            VtyService vtyService = new VtyService(element);
+            vtyService.open();
+            String showOnepStatusCmd = "show logging";
+            String cliResult = vtyService.write(showOnepStatusCmd);
+            String[] logRecords = cliResult.split("\n");
+            for (String record : logRecords) {
+                if (record.contains("Login Authentication Failed")) {
+                    System.out.println("RECORD FOUND: " + record);
+                    failedAttempts.add(record);
+                }
+            }
+            vtyService.close();
+        } catch (OnepException | InterruptedException | ExceptionIDL ex) {
+            throw new LoggingManagerException("Unable to obtain logging messages", ex);
+        }
+        return failedAttempts;
     }
 
 }

@@ -3,6 +3,7 @@ package sk.fiit.aks.fail2ban.enitiy;
 import com.cisco.onep.element.NetworkElement;
 import com.cisco.onep.element.SessionHandle;
 import java.util.UUID;
+import sk.fiit.aks.fail2ban.exception.AccessListManagerException;
 import sk.fiit.aks.fail2ban.manager.AccessListManager;
 import sk.fiit.aks.fail2ban.manager.InterfaceManager;
 import sk.fiit.aks.fail2ban.manager.LoggingManager;
@@ -46,7 +47,7 @@ public class Router {
         return this.interfaceManager;
     }
 
-    public AccessListManager getAccessListManager() {
+    public AccessListManager getAccessListManager() throws AccessListManagerException {
         if (this.accessListManager == null) {
             this.accessListManager = new AccessLIstManagerImpl(networkElement);
         }

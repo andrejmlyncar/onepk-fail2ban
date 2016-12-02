@@ -14,8 +14,13 @@ public class LoggingTest {
 
     @Test
     public void loggingTest() throws LoggingManagerException, Fail2banConnectionException {
-        ElementRegistry.getInstance().registerRouter("192.168.132.5", "kokot", "kokot", "csr1");
-        Router router = ElementRegistry.getInstance().getAllRouters().get(0);
-        router.getLoggingManager().getLoggingMessages();
+        ElementRegistry.getInstance().registerRouter("192.168.132.5", "cisco", "cisco", "csr1");
+        Router router = ElementRegistry.getInstance().getAllRouters().get(0);        
+        
+        System.out.println("UNSUCCESSFULL ATTEMTS");
+        for (String attempt : router.getLoggingManager().getFailedLoggingRecord()) {
+            System.out.println(attempt);
+        }
     }
+
 }

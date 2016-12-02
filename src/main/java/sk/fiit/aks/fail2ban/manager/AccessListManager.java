@@ -11,14 +11,16 @@ import sk.fiit.aks.fail2ban.exception.AccessListManagerException;
  */
 public interface AccessListManager {
     
-    public L3Acl createAccessList() throws AccessListManagerException;
-    
     public L3Ace createBlockingAce(String ipAddress) throws AccessListManagerException;
     
-    public void addAceToAccessList(L3Acl acl, L3Ace ace);
+    public void addAceToAccessList(L3Ace ace) throws AccessListManagerException;
     
-    public void applyAclToInterface(L3Acl acl, NetworkInterface networkInterface);
+    public void applyAclToInterface(NetworkInterface networkInterface);
     
     public L3Acl getAccessList() throws AccessListManagerException;
+    
+    public void removeAce(int sequenceNumber) throws AccessListManagerException;
+    
+    public void removeAce(L3Ace ace) throws AccessListManagerException;
     
 }
