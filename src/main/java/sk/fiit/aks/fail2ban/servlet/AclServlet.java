@@ -2,19 +2,17 @@ package sk.fiit.aks.fail2ban.servlet;
 
 // Import required java libraries
 import com.cisco.onep.policy.L3Ace;
-import com.cisco.onep.policy.L3Acl;
 import java.io.*;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.json.Json;
+import javax.json.JsonArrayBuilder;
 import javax.json.JsonObjectBuilder;
 import javax.servlet.*;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import sk.fiit.aks.fail2ban.controller.ElementRegistry;
+import sk.fiit.aks.fail2ban.enitiy.Router;
 import sk.fiit.aks.fail2ban.exception.AccessListManagerException;
-import sk.fiit.aks.fail2ban.exception.Fail2banConnectionException;
 
 public class AclServlet extends HttpServlet {
 
@@ -24,25 +22,32 @@ public class AclServlet extends HttpServlet {
 
     @Override
     public void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-
-        String id = request.getParameter("router_id");
         try {
-            L3Acl accessList = ElementRegistry.getInstance().getRouter(id).getAccessListManager().getAccessList();
+            JsonArrayBuilder builder = Json.createArrayBuilder();
+            for (Router router : ElementRegistry.getInstance().getAllRouters()) {
+                JsonObjectBuilder routerBuilder = Json.createObjectBuilder();
+                JsonArrayBuilder aceArrayBuilder = Json.createArrayBuilder();
+
+                for (L3Ace ace : router.getAccessListManager().getAccessList().getAceList()) {
+                    JsonObjectBuilder aceBuilder = Json.createObjectBuilder();                    
+                    String[] parsedAce = ace.toString().split("\n");                                        
+                    aceBuilder.add("sequence", parsedAce[2].substring(parsedAce[2].lastIndexOf(":") + 1));
+                    aceBuilder.add("permit",  parsedAce[3].substring(parsedAce[3].lastIndexOf(":") + 1));
+                    aceBuilder.add("source",  parsedAce[5].substring(parsedAce[5].lastIndexOf(":") + 1));
+                    aceBuilder.add("destination",  parsedAce[6].substring(parsedAce[6].lastIndexOf(":") + 1));
+                    aceArrayBuilder.add(aceBuilder.build());
+                }
+                routerBuilder.add("router_id", router.getId());
+                routerBuilder.add("aces", aceArrayBuilder.build());
+                builder.add(routerBuilder.build());
+            }
             response.setContentType("application/json");
             response.setStatus(200);
-            for(L3Ace ace : accessList.getAceList()) {
-                
-            }
-            
-        } catch (Fail2banConnectionException | AccessListManagerException ex) {
+            response.getWriter().write(builder.build().toString());
+        } catch (AccessListManagerException ex) {
             response.setStatus(500);
             response.getWriter().write(ex.toString());
-        } 
-        JsonObjectBuilder objectBuilder;
-        objectBuilder = Json.createObjectBuilder()
-                .add("data", "Obtaining access lists");
-
-        response.getWriter().write(objectBuilder.build().toString());
+        }
     }
 
     @Override
