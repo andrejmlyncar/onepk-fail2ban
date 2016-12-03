@@ -46,7 +46,7 @@ public class ConnectionFactory {
         config.setKeepAliveIdleTime(SessionConfig.DEFAULT_KEEPALIVE_IDLE_TIME);
         config.setKeepAliveInterval(SessionConfig.DEFAULT_KEEPALIVE_INTERVAL);
         config.setKeepAliveRetryCount(SessionConfig.DEFAULT_KEEPALIVE_RETRY_COUNT);
-        config.setTLSPinning("C:\\Users\\Andrej\\Desktop\\cacert2\\pinfile", new PinningHandler());
+        config.setTLSPinning("C:\\Users\\mikus\\Desktop\\pinfile", new PinningHandler());
         return config;
     }
 

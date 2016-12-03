@@ -32,6 +32,11 @@ public class ElementRegistry {
     }
 
     public void registerRouter(String ipaddress, String username, String password, String name) throws Fail2banConnectionException {
+        for (Router r : getAllRouters()) {
+            if (r.getAddress().equals(ipaddress)) {
+                throw new Fail2banConnectionException("Router with ipaddress " + ipaddress + " already exists"); 
+            }
+        }
         Router router = new Router(this.connectionFactory.createConnection(username, password, ipaddress), name);
         this.routers.add(router);
     }
