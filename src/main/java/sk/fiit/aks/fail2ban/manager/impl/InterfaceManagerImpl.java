@@ -27,11 +27,7 @@ public class InterfaceManagerImpl implements InterfaceManager {
         List<NetworkInterface> interfaceList = null;
         try {
             interfaceList = element.getInterfaceList(new InterfaceFilter());
-        } catch (OnepConnectionException e) {
-            throw new InterfaceManagerException("Unable to obtain interface list", e);
-        } catch (OnepIllegalArgumentException e) {
-            throw new InterfaceManagerException("Unable to obtain interface list", e);
-        } catch (OnepRemoteProcedureException e) {
+        } catch (OnepConnectionException | OnepIllegalArgumentException | OnepRemoteProcedureException e) {
             throw new InterfaceManagerException("Unable to obtain interface list", e);
         }
         if (interfaceList == null) {
@@ -45,11 +41,7 @@ public class InterfaceManagerImpl implements InterfaceManager {
     public NetworkInterface getInterface(String name) throws InterfaceManagerException {
         try {
             return element.getInterfaceByName(name);
-        } catch (OnepIllegalArgumentException ex) {
-            throw new InterfaceManagerException("Unable to obtain interface " + name, ex);
-        } catch (OnepRemoteProcedureException ex) {
-            throw new InterfaceManagerException("Unable to obtain interface " + name, ex);
-        } catch (OnepConnectionException ex) {
+        } catch (OnepIllegalArgumentException | OnepRemoteProcedureException | OnepConnectionException ex) {
             throw new InterfaceManagerException("Unable to obtain interface " + name, ex);
         }
     }
