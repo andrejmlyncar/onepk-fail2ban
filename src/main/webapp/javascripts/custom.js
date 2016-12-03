@@ -73,7 +73,7 @@ function displayAccessLists() {
                     "<th>Destination</th>" +
                     "</tr>" +
                     "</thead>" +
-                    "<tbody id='body-"+data[i].router_id+"'>");
+                    "<tbody id='body-" + data[i].router_id + "'>");
 
             for (var j = 0; j < data[i].aces.length; j++) {
                 $("#body-" + data[i].router_id).append("<tr><td>" + data[i].aces[j].sequence + "</td><td>" + data[i].aces[j].permit + "</td><td>" + data[i].aces[j].source + "</td><td>" + data[i].aces[j].destination + "</td></tr>");
