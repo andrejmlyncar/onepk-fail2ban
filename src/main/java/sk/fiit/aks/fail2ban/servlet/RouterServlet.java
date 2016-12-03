@@ -50,7 +50,7 @@ public class RouterServlet extends HttpServlet {
             JsonObject object = ServletDataReader.getJsonData(request);
             ElementRegistry.getInstance().registerRouter(object.getString("ip_address"), object.getString("username"), object.getString("password"), object.getString("name"));
             response.setStatus(200);
-            response.getWriter().write(Json.createObjectBuilder().add("status", "rotuer registered").build().toString());
+            response.getWriter().write(Json.createObjectBuilder().add("status", "router registered").build().toString());
         } catch (Fail2BanServletException | Fail2banConnectionException ex) {
             response.sendError(500);
             Logger.getLogger(RouterServlet.class.getName()).log(Level.SEVERE, "Error registering router", ex);

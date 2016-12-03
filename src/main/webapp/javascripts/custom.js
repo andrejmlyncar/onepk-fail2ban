@@ -16,7 +16,7 @@ function fillRoutersTable() {
     apiCallGet('./routers', null, function (data) {
         $("#router-table-content").html("");
         for (var i = 0; i < data.length; i++) {
-            $("#router-table-content").append("<tr><td>" + data[i].router_id + "</td><td>" + data[i].router_name + "</td><td>" + data[i].ip_address + "</td></tr>")
+            $("#router-table-content").append("<tr><td>" + data[i].router_id + "</td><td>" + data[i].router_name + "</td><td>" + data[i].ip_address + "</td></tr>");
         }
     });
 }
@@ -29,8 +29,13 @@ function addNewRouter() {
     newRouter.name = $("#router-name").val();
     console.log(JSON.stringify(newRouter));
     apiCallPost('./routers', JSON.stringify(newRouter), function (data) {
-        if (data.status === "success") {
-            fillRoutersTable();
+        console.log(data);
+        if (data === 'router registered') {
+            if ($("#router-table").is(":visible")) {
+               displayRouters();
+            } else {
+               displayAclTable();
+            }
         }
     });
 }
