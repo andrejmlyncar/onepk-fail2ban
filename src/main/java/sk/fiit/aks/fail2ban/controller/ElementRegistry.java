@@ -7,6 +7,8 @@ package sk.fiit.aks.fail2ban.controller;
 
 import sk.fiit.aks.fail2ban.enitiy.Router;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 import sk.fiit.aks.fail2ban.exception.Fail2banConnectionException;
 
@@ -51,6 +53,12 @@ public class ElementRegistry {
     }
     
     public List<Router> getAllRouters() {
+        Collections.sort(this.routers, new Comparator<Router>() {
+            @Override
+            public int compare(Router r1, Router r2) {
+                return r1.getAddress().compareTo(r2.getAddress());
+            }
+        });
         return this.routers;
     }
 }
