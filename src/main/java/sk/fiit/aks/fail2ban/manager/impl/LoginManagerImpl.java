@@ -57,6 +57,6 @@ public class LoginManagerImpl implements LoginManager {
     }
 
     private boolean shouldBeBanned(int failedCount) {
-        return failedCount > 5;
+        return failedCount > 2;
     }
 }

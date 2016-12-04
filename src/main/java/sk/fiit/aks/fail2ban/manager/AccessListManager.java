@@ -3,6 +3,8 @@ package sk.fiit.aks.fail2ban.manager;
 import com.cisco.onep.interfaces.NetworkInterface;
 import com.cisco.onep.policy.L3Ace;
 import com.cisco.onep.policy.L3Acl;
+import java.util.List;
+import sk.fiit.aks.fail2ban.enitiy.BannedRecord;
 import sk.fiit.aks.fail2ban.exception.AccessListManagerException;
 
 /**
@@ -23,4 +25,5 @@ public interface AccessListManager {
     
     public void removeAce(L3Ace ace) throws AccessListManagerException;
     
+    public List<BannedRecord> getBannedRecords();
 }
