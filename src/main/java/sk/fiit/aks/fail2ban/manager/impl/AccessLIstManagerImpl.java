@@ -9,6 +9,9 @@ import com.cisco.onep.policy.L3Ace;
 import com.cisco.onep.policy.L3Acl;
 import java.net.InetAddress;
 import java.net.UnknownHostException;
+import java.util.ArrayList;
+import java.util.List;
+import sk.fiit.aks.fail2ban.enitiy.BannedRecord;
 import sk.fiit.aks.fail2ban.exception.AccessListManagerException;
 import sk.fiit.aks.fail2ban.manager.AccessListManager;
 
@@ -21,6 +24,7 @@ public class AccessLIstManagerImpl implements AccessListManager {
     private final NetworkElement element;
     private final L3Acl accessList;
     private int sequenceNumber = 1;
+    private final List<BannedRecord> bannedRecords = new ArrayList<>();
 
     public AccessLIstManagerImpl(NetworkElement element) throws AccessListManagerException {
         this.element = element;
@@ -34,26 +38,18 @@ public class AccessLIstManagerImpl implements AccessListManager {
     }
 
     @Override
-    public L3Ace createBlockingAce(String ipAddress) throws AccessListManagerException {
+    public void createBlockingAce(String ipAddress) throws AccessListManagerException {
         L3Ace ace = new L3Ace(this.sequenceNumber++, false);
         ace.setLogFlag(L3Ace.LogFlag.ONEP_ACL_LOG_NORMAL);
         try {
-            ace.setSrcPrefix(InetAddress.getByName(ipAddress), (short) 31);
-            ace.setDstPrefix(this.element.getAddress(), (short) 31);
+            ace.setSrcPrefix(InetAddress.getByName(ipAddress), (short) 32);
+            ace.setDstPrefix(this.element.getAddress(), (short) 32);
+            this.accessList.addAce(ace);
+            this.bannedRecords.add(new BannedRecord(ace, ipAddress));
         } catch (UnknownHostException ex) {
             throw new AccessListManagerException("Unknown ip address", ex);
         } catch (OnepIllegalArgumentException ex) {
             throw new AccessListManagerException("Failed to create ace", ex);
-        }
-        return ace;
-    }
-
-    @Override
-    public void addAceToAccessList(L3Ace ace) throws AccessListManagerException {
-        try {
-            this.accessList.addAce(ace);
-        } catch (OnepIllegalArgumentException ex) {
-            throw new AccessListManagerException("Unable to add ace to acl", ex);
         }
     }
 
@@ -99,4 +95,18 @@ public class AccessLIstManagerImpl implements AccessListManager {
         }
     }
 
+    @Override
+    public List<BannedRecord> getBannedRecords() {
+        return this.bannedRecords;
+    }
+
+    @Override
+    public BannedRecord getBannedRecord(String ipAddress) {
+        for (BannedRecord record : this.bannedRecords) {
+            if (record.getIpAddress().equals(ipAddress)) {
+                return record;
+            }
+        }
+        return null;
+    }
 }

@@ -31,8 +31,8 @@ public class LoginManagerImpl implements LoginManager {
             failedRecordsMap.put(ipAddress, failedRecordsMap.get(ipAddress) + 1);
             System.out.println("Increasing value for " + ipAddress + ". Current count is " + failedRecordsMap.get(ipAddress));
             if (shouldBeBanned(failedRecordsMap.get(ipAddress))) {
-                System.out.println("BANNING ADDRESS " + ipAddress);
                 banAddressForAllRouters(ipAddress);
+                failedRecordsMap.put(ipAddress, failedRecordsMap.get(ipAddress) - 2);
             }
         }
     }
@@ -49,7 +49,13 @@ public class LoginManagerImpl implements LoginManager {
     private void banAddressForAllRouters(String ipAddress) throws LoginManagerException {
         for (Router router : ElementRegistry.getInstance().getAllRouters()) {
             try {
-                router.getAccessListManager().addAceToAccessList(router.getAccessListManager().createBlockingAce(ipAddress));
+                if (router.getAccessListManager().getBannedRecord(ipAddress) == null) {
+                    System.out.println("BANNING ADDRESS " + ipAddress + " for router " + router.getName());
+                    router.getAccessListManager().createBlockingAce(ipAddress);
+                } else {
+                    System.out.println("Extending banned time for ip address " + ipAddress + " for router " + router.getName());
+                    router.getAccessListManager().getBannedRecord(ipAddress).extendBannedTime();
+                }
             } catch (AccessListManagerException ex) {
                 throw new LoginManagerException("Unable to ban address for router " + router.getId(), ex);
             }
@@ -57,6 +63,6 @@ public class LoginManagerImpl implements LoginManager {
     }
 
     private boolean shouldBeBanned(int failedCount) {
-        return failedCount > 5;
+        return failedCount > 2;
     }
 }

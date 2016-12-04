@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package sk.fiit.aks.fail2ban.controller;
 
 import sk.fiit.aks.fail2ban.enitiy.Router;
@@ -42,16 +37,16 @@ public class ElementRegistry {
         Router router = new Router(this.connectionFactory.createConnection(username, password, ipaddress), name);
         this.routers.add(router);
     }
-    
+
     public Router getRouter(String id) throws Fail2banConnectionException {
-        for(Router router : routers) {
-            if(router.getId().equals(id)) {
+        for (Router router : routers) {
+            if (router.getId().equals(id)) {
                 return router;
             }
         }
-        throw new Fail2banConnectionException("Router with id " + id + " not found"); 
+        throw new Fail2banConnectionException("Router with id " + id + " not found");
     }
-    
+
     public List<Router> getAllRouters() {
         Collections.sort(this.routers, new Comparator<Router>() {
             @Override

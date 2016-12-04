@@ -6,8 +6,7 @@ import com.cisco.onep.element.SessionHandle;
 import com.cisco.onep.element.SyslogFilter;
 import com.cisco.onep.interfaces.NetworkInterface;
 import java.util.UUID;
-import java.util.logging.Level;
-import java.util.logging.Logger;
+import sk.fiit.aks.fail2ban.controller.AclTimeoutManager;
 import sk.fiit.aks.fail2ban.controller.listener.LoginSysLogListener;
 import sk.fiit.aks.fail2ban.exception.AccessListManagerException;
 import sk.fiit.aks.fail2ban.exception.Fail2banConnectionException;
@@ -44,6 +43,8 @@ public class Router {
         } catch (OnepException ex) {
             throw new Fail2banConnectionException("Unable to setup logging listener for router" + name, ex);
         }
+        AclTimeoutManager timeoutManager = new AclTimeoutManager(this);
+        timeoutManager.start();
     }
 
     public Router(SessionHandle sessionHandle, String routerName) throws Fail2banConnectionException {
@@ -56,6 +57,8 @@ public class Router {
         } catch (OnepException ex) {
             throw new Fail2banConnectionException("Unable to setup logging listener for router" + name, ex);
         }
+        AclTimeoutManager timeoutManager = new AclTimeoutManager(this);
+        timeoutManager.start();
     }
 
     public InterfaceManager getInterfaceManager() {

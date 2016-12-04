@@ -3,7 +3,7 @@
     <modelVersion>4.0.0</modelVersion>
     <groupId>sk.fiit.aks</groupId>
     <artifactId>aks-onepk-fail2ban</artifactId>
-    <version>0.0.1</version>
+    <version>1.0.0</version>
     <packaging>war</packaging>
     <name>aks-onepk-fail2ban</name>
 
