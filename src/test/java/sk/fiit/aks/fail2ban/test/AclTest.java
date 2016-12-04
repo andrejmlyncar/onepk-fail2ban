@@ -21,9 +21,7 @@ public class AclTest {
         try {
             ElementRegistry.getInstance().registerRouter("192.168.132.5", "kokot", "kokot", "csr1");
             Router router = ElementRegistry.getInstance().getAllRouters().get(0);
-            L3Ace ace = router.getAccessListManager().createBlockingAce("192.168.132.6");
-            router.getAccessListManager().addAceToAccessList(ace);
-            System.out.println(ace.toString());
+            router.getAccessListManager().createBlockingAce("192.168.132.6");
             for (NetworkInterface iface : router.getInterfaceManager().getAllInterfaces()) {
                 System.out.println("Applying acl to interface " + iface.getName());
                 router.getAccessListManager().applyAclToInterface(iface);

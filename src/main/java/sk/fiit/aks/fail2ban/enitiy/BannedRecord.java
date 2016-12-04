@@ -11,17 +11,27 @@ public class BannedRecord {
 
     private final L3Ace ace;
     private final Timestamp expireTimestamp;
-    
-    public BannedRecord(L3Ace ace) {
-        this.ace =ace;
-        this.expireTimestamp = new Timestamp(System.currentTimeMillis() + 1 * 30 * 1000);
+    private final String ipAddress;
+
+    public BannedRecord(L3Ace ace, String ipAddress) {
+        this.ace = ace;
+        this.ipAddress = ipAddress;
+        this.expireTimestamp = new Timestamp(System.currentTimeMillis() + 1 * 60 * 1000);
     }
-    
+
     public Timestamp getExpireTimestamp() {
         return this.expireTimestamp;
     }
-    
+
     public L3Ace getAce() {
         return this.ace;
+    }
+
+    public String getIpAddress() {
+        return this.ipAddress;
+    }
+
+    public void extendBannedTime() {
+        this.expireTimestamp.setTime(expireTimestamp.getTime() + 1 * 60 * 1000);
     }
 }
