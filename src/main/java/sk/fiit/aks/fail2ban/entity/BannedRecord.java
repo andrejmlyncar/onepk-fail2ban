@@ -1,4 +1,4 @@
-package sk.fiit.aks.fail2ban.enitiy;
+package sk.fiit.aks.fail2ban.entity;
 
 import com.cisco.onep.policy.L3Ace;
 import java.sql.Timestamp;

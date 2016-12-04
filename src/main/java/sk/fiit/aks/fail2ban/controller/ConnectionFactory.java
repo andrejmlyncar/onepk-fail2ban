@@ -31,7 +31,7 @@ public class ConnectionFactory {
             SessionHandle handle = networkElement.connect(username, password, createSessionConfig());
             return handle;
         } catch (OnepConnectionException | OnepIllegalArgumentException | OnepDuplicateElementException | OnepInvalidSettingsException | UnknownHostException ex) {
-            throw new Fail2banConnectionException("Unable to create connection with network element", ex);
+            throw new Fail2banConnectionException("Unable to create connection with network element.", ex);
         }
     }
 

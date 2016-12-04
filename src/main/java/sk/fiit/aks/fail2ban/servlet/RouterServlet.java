@@ -16,7 +16,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import sk.fiit.aks.fail2ban.controller.ElementRegistry;
-import sk.fiit.aks.fail2ban.enitiy.Router;
+import sk.fiit.aks.fail2ban.entity.Router;
 import sk.fiit.aks.fail2ban.exception.Fail2BanServletException;
 import sk.fiit.aks.fail2ban.exception.Fail2banConnectionException;
 import sk.fiit.aks.fail2ban.servlet.util.ServletDataReader;

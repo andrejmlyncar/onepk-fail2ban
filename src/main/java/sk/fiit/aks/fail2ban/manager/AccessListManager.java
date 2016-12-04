@@ -4,7 +4,7 @@ import com.cisco.onep.interfaces.NetworkInterface;
 import com.cisco.onep.policy.L3Ace;
 import com.cisco.onep.policy.L3Acl;
 import java.util.List;
-import sk.fiit.aks.fail2ban.enitiy.BannedRecord;
+import sk.fiit.aks.fail2ban.entity.BannedRecord;
 import sk.fiit.aks.fail2ban.exception.AccessListManagerException;
 
 /**

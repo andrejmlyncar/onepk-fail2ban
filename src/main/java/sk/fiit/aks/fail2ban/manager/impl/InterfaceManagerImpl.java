@@ -28,10 +28,10 @@ public class InterfaceManagerImpl implements InterfaceManager {
         try {
             interfaceList = element.getInterfaceList(new InterfaceFilter());
         } catch (OnepConnectionException | OnepIllegalArgumentException | OnepRemoteProcedureException e) {
-            throw new InterfaceManagerException("Unable to obtain interface list", e);
+            throw new InterfaceManagerException("Unable to obtain interface list.", e);
         }
         if (interfaceList == null) {
-            throw new InterfaceManagerException("Interface List was not successfully initailzed");
+            throw new InterfaceManagerException("Interface List was not successfully initailzed.");
         }
 
         return interfaceList;

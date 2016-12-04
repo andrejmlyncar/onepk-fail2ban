@@ -1,6 +1,6 @@
 package sk.fiit.aks.fail2ban.controller;
 
-import sk.fiit.aks.fail2ban.enitiy.Router;
+import sk.fiit.aks.fail2ban.entity.Router;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
@@ -31,7 +31,7 @@ public class ElementRegistry {
     public void registerRouter(String ipaddress, String username, String password, String name) throws Fail2banConnectionException {
         for (Router r : getAllRouters()) {
             if (r.getAddress().equals(ipaddress)) {
-                throw new Fail2banConnectionException("Router with ipaddress " + ipaddress + " already exists"); 
+                throw new Fail2banConnectionException("Router with ipaddress " + ipaddress + " already exists."); 
             }
         }
         Router router = new Router(this.connectionFactory.createConnection(username, password, ipaddress), name);
@@ -44,7 +44,7 @@ public class ElementRegistry {
                 return router;
             }
         }
-        throw new Fail2banConnectionException("Router with id " + id + " not found");
+        throw new Fail2banConnectionException("Router with id " + id + " not found.");
     }
 
     public List<Router> getAllRouters() {

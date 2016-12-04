@@ -7,7 +7,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import sk.fiit.aks.fail2ban.controller.AclTimeoutManager;
 import sk.fiit.aks.fail2ban.controller.ElementRegistry;
-import sk.fiit.aks.fail2ban.enitiy.Router;
+import sk.fiit.aks.fail2ban.entity.Router;
 import sk.fiit.aks.fail2ban.exception.AccessListManagerException;
 import sk.fiit.aks.fail2ban.exception.LoginManagerException;
 import sk.fiit.aks.fail2ban.manager.LoginManager;

@@ -11,7 +11,7 @@ import java.net.InetAddress;
 import java.net.UnknownHostException;
 import java.util.ArrayList;
 import java.util.List;
-import sk.fiit.aks.fail2ban.enitiy.BannedRecord;
+import sk.fiit.aks.fail2ban.entity.BannedRecord;
 import sk.fiit.aks.fail2ban.exception.AccessListManagerException;
 import sk.fiit.aks.fail2ban.manager.AccessListManager;
 
@@ -19,21 +19,21 @@ import sk.fiit.aks.fail2ban.manager.AccessListManager;
  *
  * @author Andrej Mlyncar <a.mlyncar@gmail.com>
  */
-public class AccessLIstManagerImpl implements AccessListManager {
+public class AccessListManagerImpl implements AccessListManager {
 
     private final NetworkElement element;
     private final L3Acl accessList;
     private int sequenceNumber = 1;
     private final List<BannedRecord> bannedRecords = new ArrayList<>();
 
-    public AccessLIstManagerImpl(NetworkElement element) throws AccessListManagerException {
+    public AccessListManagerImpl(NetworkElement element) throws AccessListManagerException {
         this.element = element;
         try {
             this.accessList = new L3Acl(element, OnepAddressFamilyType.ONEP_AF_INET);
             accessList.setLifeTime(Acl.OnepLifeTime.ONEP_TRANSIENT);
             accessList.addAce(createAllowAllAce());
         } catch (OnepIllegalArgumentException ex) {
-            throw new AccessListManagerException("Unable to create acl ", ex);
+            throw new AccessListManagerException("Unable to create ACL.", ex);
         }
     }
 
@@ -47,9 +47,9 @@ public class AccessLIstManagerImpl implements AccessListManager {
             this.accessList.addAce(ace);
             this.bannedRecords.add(new BannedRecord(ace, ipAddress));
         } catch (UnknownHostException ex) {
-            throw new AccessListManagerException("Unknown ip address", ex);
+            throw new AccessListManagerException("Unknown ip address.", ex);
         } catch (OnepIllegalArgumentException ex) {
-            throw new AccessListManagerException("Failed to create ace", ex);
+            throw new AccessListManagerException("Failed to create ace.", ex);
         }
     }
 
@@ -79,7 +79,7 @@ public class AccessLIstManagerImpl implements AccessListManager {
                     this.accessList.removeAce(ace);
                     return;
                 } catch (OnepIllegalArgumentException ex) {
-                    throw new AccessListManagerException("Unable to remove ace from acl", ex);
+                    throw new AccessListManagerException("Unable to remove ace from ACL.", ex);
                 }
             }
         }
@@ -91,7 +91,7 @@ public class AccessLIstManagerImpl implements AccessListManager {
         try {
             this.accessList.removeAce(ace);
         } catch (OnepIllegalArgumentException ex) {
-            throw new AccessListManagerException("Unable to remove ace from acl", ex);
+            throw new AccessListManagerException("Unable to remove ace from ACL.", ex);
         }
     }
 

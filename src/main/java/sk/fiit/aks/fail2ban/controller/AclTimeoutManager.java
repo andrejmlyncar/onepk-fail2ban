@@ -3,8 +3,8 @@ package sk.fiit.aks.fail2ban.controller;
 import java.util.Iterator;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import sk.fiit.aks.fail2ban.enitiy.BannedRecord;
-import sk.fiit.aks.fail2ban.enitiy.Router;
+import sk.fiit.aks.fail2ban.entity.BannedRecord;
+import sk.fiit.aks.fail2ban.entity.Router;
 import sk.fiit.aks.fail2ban.exception.AccessListManagerException;
 
 /**
@@ -31,7 +31,7 @@ public class AclTimeoutManager extends Thread {
                 while (recordIterator.hasNext()) {
                     BannedRecord record = recordIterator.next();
                     if (record.getExpireTimestamp().getTime() < System.currentTimeMillis()) {
-                        logger.log(Level.INFO, "Expired ACL found: Removing acl with seq num {0} from router {1}.", new Object[]{record.getAce().getSequence(), router.getName()});
+                        logger.log(Level.INFO, "Expired ACL found. Removing ACL with seq num {0} from router {1}.", new Object[]{record.getAce().getSequence(), router.getName()});
                         router.getAccessListManager().removeAce(record.getAce());
                         recordIterator.remove();
                     }

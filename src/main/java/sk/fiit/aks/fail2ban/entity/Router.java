@@ -1,4 +1,4 @@
-package sk.fiit.aks.fail2ban.enitiy;
+package sk.fiit.aks.fail2ban.entity;
 
 import com.cisco.onep.core.exception.OnepException;
 import com.cisco.onep.element.NetworkElement;
@@ -14,7 +14,7 @@ import sk.fiit.aks.fail2ban.exception.InterfaceManagerException;
 import sk.fiit.aks.fail2ban.manager.AccessListManager;
 import sk.fiit.aks.fail2ban.manager.InterfaceManager;
 import sk.fiit.aks.fail2ban.manager.LoginManager;
-import sk.fiit.aks.fail2ban.manager.impl.AccessLIstManagerImpl;
+import sk.fiit.aks.fail2ban.manager.impl.AccessListManagerImpl;
 import sk.fiit.aks.fail2ban.manager.impl.InterfaceManagerImpl;
 import sk.fiit.aks.fail2ban.manager.impl.LoginManagerImpl;
 
@@ -41,7 +41,7 @@ public class Router {
         try {
             this.networkElement.addSyslogListener(new LoginSysLogListener(this), new SyslogFilter("Login Authentication Failed"), 8);
         } catch (OnepException ex) {
-            throw new Fail2banConnectionException("Unable to setup logging listener for router" + name, ex);
+            throw new Fail2banConnectionException("Unable to setup logging listener for router " + name, ex);
         }
         AclTimeoutManager timeoutManager = new AclTimeoutManager(this);
         timeoutManager.start();
@@ -55,7 +55,7 @@ public class Router {
         try {
             this.networkElement.addSyslogListener(new LoginSysLogListener(this), new SyslogFilter("Login Authentication Failed"), 8);
         } catch (OnepException ex) {
-            throw new Fail2banConnectionException("Unable to setup logging listener for router" + name, ex);
+            throw new Fail2banConnectionException("Unable to setup logging listener for router " + name, ex);
         }
         AclTimeoutManager timeoutManager = new AclTimeoutManager(this);
         timeoutManager.start();
@@ -70,13 +70,13 @@ public class Router {
 
     public AccessListManager getAccessListManager() throws AccessListManagerException {
         if (this.accessListManager == null) {
-            this.accessListManager = new AccessLIstManagerImpl(networkElement);
+            this.accessListManager = new AccessListManagerImpl(networkElement);
             try {
                 for (NetworkInterface iface : this.getInterfaceManager().getAllInterfaces()) {
                     this.accessListManager.applyAclToInterface(iface);
                 }
             } catch (InterfaceManagerException ex) {
-                throw new AccessListManagerException("Unable to initialize access list manager - cannot obtain list of interfaces to which ACL should be applied", ex);
+                throw new AccessListManagerException("Unable to initialize access list manager - cannot obtain list of interfaces to which ACL should be applied.", ex);
             }
         }
         return this.accessListManager;

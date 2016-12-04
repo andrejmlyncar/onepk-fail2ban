@@ -27,14 +27,12 @@ function addNewRouter() {
     newRouter.username = $("#router-username").val();
     newRouter.password = $("#router-password").val();
     newRouter.name = $("#router-name").val();
-    console.log(JSON.stringify(newRouter));
     apiCallPost('./routers', JSON.stringify(newRouter), function (data) {
-        console.log(data);
-        if (data === 'router registered') {
+        if (data.status === 'router registered') {
             if ($("#router-table").is(":visible")) {
-               displayRouters();
+                displayRouters();
             } else {
-               displayAclTable();
+                displayAclTable();
             }
         }
     });

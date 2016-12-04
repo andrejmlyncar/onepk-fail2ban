@@ -6,7 +6,7 @@ import java.util.logging.Logger;
 import org.junit.Test;
 import sk.fiit.aks.fail2ban.controller.AclTimeoutManager;
 import sk.fiit.aks.fail2ban.controller.ElementRegistry;
-import sk.fiit.aks.fail2ban.enitiy.Router;
+import sk.fiit.aks.fail2ban.entity.Router;
 import sk.fiit.aks.fail2ban.exception.AccessListManagerException;
 import sk.fiit.aks.fail2ban.exception.Fail2banConnectionException;
 import sk.fiit.aks.fail2ban.exception.InterfaceManagerException;
@@ -23,18 +23,18 @@ public class AclTest {
         Logger logger = Logger.getLogger(AclTimeoutManager.class.getName());
         
         try {
-            ElementRegistry.getInstance().registerRouter("192.168.132.5", "kokot", "kokot", "csr1");
+            ElementRegistry.getInstance().registerRouter("192.168.132.5", "cisco", "cisco", "csr1");
             Router router = ElementRegistry.getInstance().getAllRouters().get(0);
             router.getAccessListManager().createBlockingAce("192.168.132.6");
             for (NetworkInterface iface : router.getInterfaceManager().getAllInterfaces()) {
-                logger.log(Level.INFO, "Applying acl to interface {0}", new Object[]{iface.getName()});
+                logger.log(Level.INFO, "Applying ACL to interface {0}.", new Object[]{iface.getName()});
                 router.getAccessListManager().applyAclToInterface(iface);
             }
             
             Thread.sleep(10000);
-            logger.log(Level.INFO, "ACL successfully applied");
+            logger.log(Level.INFO, "ACL successfully applied.");
         } catch (Fail2banConnectionException ex) {
-            logger.log(Level.SEVERE, "Application terminated: {0}", new Object[]{ex.getMessage()});
+            logger.log(Level.SEVERE, "Application terminated: {0}.", new Object[]{ex.getMessage()});
         }
     }
 
