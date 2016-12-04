@@ -4,7 +4,6 @@ package sk.fiit.aks.fail2ban.servlet;
 import com.cisco.onep.policy.L3Ace;
 import java.io.*;
 import java.text.SimpleDateFormat;
-import java.util.Date;
 import javax.json.Json;
 import javax.json.JsonArrayBuilder;
 import javax.json.JsonObjectBuilder;

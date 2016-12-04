@@ -3,6 +3,9 @@ package sk.fiit.aks.fail2ban.manager.impl;
 import com.cisco.onep.element.NetworkElement;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import sk.fiit.aks.fail2ban.controller.AclTimeoutManager;
 import sk.fiit.aks.fail2ban.controller.ElementRegistry;
 import sk.fiit.aks.fail2ban.enitiy.Router;
 import sk.fiit.aks.fail2ban.exception.AccessListManagerException;
@@ -15,21 +18,23 @@ import sk.fiit.aks.fail2ban.manager.LoginManager;
  */
 public class LoginManagerImpl implements LoginManager {
 
+    private final Logger logger;
     private final NetworkElement element;
     private final Map<String, Integer> failedRecordsMap = new HashMap<>();
 
     public LoginManagerImpl(NetworkElement networkElement) {
+        this.logger = Logger.getLogger(AclTimeoutManager.class.getName());
         this.element = networkElement;
     }
 
     @Override
     public void addFailedRecord(String ipAddress) throws LoginManagerException {
         if (failedRecordsMap.get(ipAddress) == null) {
-            System.out.println("Initializing failed login record for ipaddress " + ipAddress);
+            logger.log(Level.INFO, "Initializing failed login record for ipaddress {0}.", new Object[]{ipAddress});
             failedRecordsMap.put(ipAddress, 1);
         } else {
             failedRecordsMap.put(ipAddress, failedRecordsMap.get(ipAddress) + 1);
-            System.out.println("Increasing value for " + ipAddress + ". Current count is " + failedRecordsMap.get(ipAddress));
+             logger.log(Level.INFO, "Increasing value for {0}. Current count is {1}.", new Object[]{ipAddress, failedRecordsMap.get(ipAddress)});
             if (shouldBeBanned(failedRecordsMap.get(ipAddress))) {
                 banAddressForAllRouters(ipAddress);
                 failedRecordsMap.put(ipAddress, failedRecordsMap.get(ipAddress) - 2);
@@ -50,10 +55,10 @@ public class LoginManagerImpl implements LoginManager {
         for (Router router : ElementRegistry.getInstance().getAllRouters()) {
             try {
                 if (router.getAccessListManager().getBannedRecord(ipAddress) == null) {
-                    System.out.println("BANNING ADDRESS " + ipAddress + " for router " + router.getName());
+                    logger.log(Level.INFO, "BANNING ADDRESS {0} for router {1}.", new Object[]{ipAddress, router.getName()});
                     router.getAccessListManager().createBlockingAce(ipAddress);
                 } else {
-                    System.out.println("Extending banned time for ip address " + ipAddress + " for router " + router.getName());
+                     logger.log(Level.INFO, "Extending banned time for ip address {0} for router {1}.", new Object[]{ipAddress, router.getName()});
                     router.getAccessListManager().getBannedRecord(ipAddress).extendBannedTime();
                 }
             } catch (AccessListManagerException ex) {
