@@ -3,7 +3,7 @@ Application implemented as semestral project of architecture of communication sy
 
 Application designed to monitor changes in cisco router logging proces. In case higher amount of unsuccessful logins are made into router, router access lists are automatically updated and connection from potencial dangerous source is blocked for defined period of time. System works as network based intrusion detection system - in case one router detects higher amounts of unsuccessful login attemts access lists are updated in all registered routers.
 
-##Technologies
+## Technologies
 Following technologies are used in project:
 * Frontend is implemented with HTML + jQuery
 * Javax Servlets for web REST Api
